@@ -4,7 +4,7 @@
 int** add_row(int** arr, int& rows, int cols, int index)
 {
     int new_rows = rows + 1;
-    int** temp_arr = Create_arr(new_rows, cols);
+    int** temp_arr = create_arr(new_rows, cols);
 
     int k = 0;
     bool isFlag = true;
@@ -43,7 +43,7 @@ int main()
     std::cout << "Введите количество столбцов: ";
     std::cin >> cols;
 
-    int** arr = Create_arr(rows, cols);
+    int** arr = create_arr(rows, cols);
 
     for (int i = 0; i != rows; i++)
     {
