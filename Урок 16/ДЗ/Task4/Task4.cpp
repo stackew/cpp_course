@@ -4,6 +4,8 @@
 #include <variant>
 #include <Windows.h>
 
+#define CAR_VECTOR_SIZE 10
+
 enum Type_of_CarNum
 {
 	INT_NUMBER = 1,
@@ -50,14 +52,20 @@ void fill_car_number(Car& car)
 	} while (!isCheck);
 }
 
-void fill_data(Car &car)
+void fill_car(Car& car)
 {
-	std::cout << "\n---Создание машины---" << std::endl;
-	std::cout << "Введите цвет машины: ";
+	std::cout << "\nВведите цвет машины: ";
 	std::cin >> car.colour;
 	std::cout << "Введите модель машины: ";
 	std::cin >> car.model;
 	fill_car_number(car);
+}
+
+Car car_creation()
+{
+	Car car;
+	fill_car(car);
+	return car;
 }
 
 void print_car(Car const& car)
@@ -77,12 +85,7 @@ void print_car(Car const& car)
 
 void edit_car(Car& car)
 {
-	std::cout << "\n---Редакторование машины---" << std::endl
-		<< "Введите цвет: ";
-	std::cin >> car.colour;
-	std::cout << "Введите модель: ";
-	std::cin >> car.model;
-	fill_car_number(car);
+	fill_car(car);
 }
 
 void print_cars(std::vector<Car> const& cars)
@@ -105,7 +108,7 @@ void search_by_number(std::vector<Car> const& cars)
 	do
 	{
 		isCheck = true;
-		std::cout << "---Поиск машины---" << std::endl
+		std::cout << "\n---Поиск машины---" << std::endl
 			<< "1)По числовому номеру" << std::endl
 			<< "2)По слову" << std::endl
 			<< "Какой поиск вы хотите выполнить: ";
@@ -152,22 +155,21 @@ int main()
 	setlocale(LC_ALL, "rus");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-	
-	Car test_car;
-	fill_data(test_car);
+
+	Car test_car = car_creation();
 	print_car(test_car);
 
-	std::vector<Car> cars(10);
+	std::vector<Car> cars(CAR_VECTOR_SIZE);
 	cars[0] = { "Colour1", "Model1", 11111 };
 	cars[1] = { "Colour2", "Model2", 22222 };
-	cars[2] = { "Colour3", "Model3", "Num3"};
-	cars[3] = { "Colour4", "Model4", "Num4"};
+	cars[2] = { "Colour3", "Model3", "Num3" };
+	cars[3] = { "Colour4", "Model4", "Num4" };
 	cars[4] = { "Colour5", "Model5", 55555 };
-	cars[5] = { "Colour6", "Model6", "Num6"};
+	cars[5] = { "Colour6", "Model6", "Num6" };
 	cars[6] = { "Colour7", "Model7", 77777 };
 	cars[7] = { "Colour8", "Model8", 88888 };
 	cars[8] = { "Colour9", "Model9", 99999 };
-	cars[9] = { "Colour10", "Model10", "Num10"};
+	cars[9] = { "Colour10", "Model10", "Num10" };
 
 	print_cars(cars);
 
