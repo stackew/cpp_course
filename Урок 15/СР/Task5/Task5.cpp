@@ -4,7 +4,7 @@
 
 using vector2d = std::vector<std::vector<int>>;
 
-void fill_2darr(vector2d & arr2d)
+void fill_2darr(vector2d& arr2d)
 {
 	for (int i = 0; i != arr2d.size(); i++)
 	{
@@ -29,13 +29,15 @@ void print_2darr(vector2d const& arr2d)
 
 void remove_row_withZeroEl(vector2d& arr2d)
 {
-	for (int i = 0; i != arr2d.size(); i++)
+	int arrRowsSize = arr2d.size();
+	for (int i = 0; i < arrRowsSize; i++)
 	{
-		for (int j = 0; j != arr2d[i].size(); j++)
+		for (int j = 0; j < arr2d[i].size(); j++)
 		{
 			if (arr2d[i][j] == 0)
 			{
 				arr2d.erase(arr2d.begin() + i);
+				arrRowsSize--;
 				break;
 			}
 		}
@@ -48,7 +50,7 @@ int main()
 	srand(time(NULL));
 
 	int rows = 4;
-	int cols = 5;
+	int cols = 4;
 	vector2d arr2d(rows, std::vector<int>(cols));
 
 	fill_2darr(arr2d);

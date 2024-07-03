@@ -30,7 +30,8 @@ void MinIntArrEl(std::vector<int> const& arr)
 			min = el;
 		}
 	}
-	std::cout << "Минимальный элемент: " << min;
+	std::cout << "\nМинимальный элемент: " << min
+		<< std::endl;
 }
 
 void MaxIntArrEl(std::vector<int> const& arr)
@@ -43,7 +44,8 @@ void MaxIntArrEl(std::vector<int> const& arr)
 			max = el;
 		}
 	}
-	std::cout << "Максимальный элемент: " << max;
+	std::cout << "\nМаксимальный элемент: " << max
+		<< std::endl;
 }
 
 void SortIntArr(std::vector<int>& arr)
@@ -51,10 +53,10 @@ void SortIntArr(std::vector<int>& arr)
 	std::sort(arr.begin(), arr.end());
 }
 
-void EditIntArrEl(std::vector<int> & arr)
+void EditIntArrEl(std::vector<int>& arr)
 {
 	int index;
-	std::cout << "Введите индекс элемента, который хотите поменять: ";
+	std::cout << "\nВведите индекс элемента, который хотите поменять: ";
 	std::cin >> index;
 	if (index >= arr.size() || index < 0)
 	{
@@ -97,7 +99,8 @@ void MinDoubleArrEl(std::vector<double> const& arr)
 			min = el;
 		}
 	}
-	std::cout << "Минимальный элемент: " << min;
+	std::cout << "\nМинимальный элемент: " << min
+		<< std::endl;
 }
 
 void MaxDoubleArrEl(std::vector<double> const& arr)
@@ -110,7 +113,8 @@ void MaxDoubleArrEl(std::vector<double> const& arr)
 			max = el;
 		}
 	}
-	std::cout << "Максимальный элемент: " << max;
+	std::cout << "\nМаксимальный элемент: " << max
+		<< std::endl;
 }
 
 void SortDoubleArr(std::vector<double>& arr)
@@ -121,7 +125,7 @@ void SortDoubleArr(std::vector<double>& arr)
 void EditDoubleArrEl(std::vector<double>& arr)
 {
 	int index;
-	std::cout << "Введите индекс элемента, который хотите поменять: ";
+	std::cout << "\nВведите индекс элемента, который хотите поменять: ";
 	std::cin >> index;
 	if (index >= arr.size() || index < 0)
 	{
@@ -164,7 +168,8 @@ void MinCharArrEl(std::vector<char> const& arr)
 			min = el;
 		}
 	}
-	std::cout << "Минимальный элемент: " << min;
+	std::cout << "\nМинимальный элемент: " << min
+		<< std::endl;
 }
 
 void MaxCharArrEl(std::vector<char> const& arr)
@@ -177,7 +182,8 @@ void MaxCharArrEl(std::vector<char> const& arr)
 			max = el;
 		}
 	}
-	std::cout << "Максимальный элемент: " << max;
+	std::cout << "\nМаксимальный элемент: " << max
+		<< std::endl;
 }
 
 void SortCharArr(std::vector<char>& arr)
@@ -188,7 +194,7 @@ void SortCharArr(std::vector<char>& arr)
 void EditCharArrEl(std::vector<char>& arr)
 {
 	int index;
-	std::cout << "Введите индекс элемента, который хотите поменять: ";
+	std::cout << "\nВведите индекс элемента, который хотите поменять: ";
 	std::cin >> index;
 	if (index >= arr.size() || index < 0)
 	{
@@ -200,7 +206,3 @@ void EditCharArrEl(std::vector<char>& arr)
 		std::cin >> arr[index];
 	}
 }
-
-
-
-
