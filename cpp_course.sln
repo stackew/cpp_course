@@ -115,7 +115,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Экзамен", "Экза�
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Игра на память", "Игра на память", "{FEEA0DC5-18B0-4E23-8081-4D1DA7B95752}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Память", "Экзамен\Игра на память\Память\Память.vcxproj", "{E3B03DAC-9259-4382-960A-6A62623F56EF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MatchGame", "Экзамен\Игра на память\Память\Память.vcxproj", "{E3B03DAC-9259-4382-960A-6A62623F56EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Каталог песен", "Каталог песен", "{2434BCF3-B52E-4385-966E-E92A8C75C3F6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SongCatalog", "Экзамен\Каталог песен\SongCatalog\SongCatalog.vcxproj", "{F0B026A5-8BAF-4351-A40D-BDD39DE8A926}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -397,6 +401,14 @@ Global
 		{E3B03DAC-9259-4382-960A-6A62623F56EF}.Release|x64.Build.0 = Release|x64
 		{E3B03DAC-9259-4382-960A-6A62623F56EF}.Release|x86.ActiveCfg = Release|Win32
 		{E3B03DAC-9259-4382-960A-6A62623F56EF}.Release|x86.Build.0 = Release|Win32
+		{F0B026A5-8BAF-4351-A40D-BDD39DE8A926}.Debug|x64.ActiveCfg = Debug|x64
+		{F0B026A5-8BAF-4351-A40D-BDD39DE8A926}.Debug|x64.Build.0 = Debug|x64
+		{F0B026A5-8BAF-4351-A40D-BDD39DE8A926}.Debug|x86.ActiveCfg = Debug|Win32
+		{F0B026A5-8BAF-4351-A40D-BDD39DE8A926}.Debug|x86.Build.0 = Debug|Win32
+		{F0B026A5-8BAF-4351-A40D-BDD39DE8A926}.Release|x64.ActiveCfg = Release|x64
+		{F0B026A5-8BAF-4351-A40D-BDD39DE8A926}.Release|x64.Build.0 = Release|x64
+		{F0B026A5-8BAF-4351-A40D-BDD39DE8A926}.Release|x86.ActiveCfg = Release|Win32
+		{F0B026A5-8BAF-4351-A40D-BDD39DE8A926}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -443,6 +455,8 @@ Global
 		{A7A7AC93-FF11-4AF9-B478-79519542BD25} = {33B0D6FF-D151-446E-8FCB-757D428E3D9E}
 		{FEEA0DC5-18B0-4E23-8081-4D1DA7B95752} = {7F9380E4-11AA-4B18-855E-2D03F0EBFBA3}
 		{E3B03DAC-9259-4382-960A-6A62623F56EF} = {FEEA0DC5-18B0-4E23-8081-4D1DA7B95752}
+		{2434BCF3-B52E-4385-966E-E92A8C75C3F6} = {7F9380E4-11AA-4B18-855E-2D03F0EBFBA3}
+		{F0B026A5-8BAF-4351-A40D-BDD39DE8A926} = {2434BCF3-B52E-4385-966E-E92A8C75C3F6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3FEEF4AF-12E8-4843-9E4F-4D2403EBEF9A}
