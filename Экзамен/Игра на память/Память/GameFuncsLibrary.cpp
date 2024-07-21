@@ -2,14 +2,14 @@
 
 #include "GameFuncsLibrary.h"
 
-bool IsMatch(Card& card1, Card& card2, IntMatrix const& Field)
+bool IsMatch(Card& card1, Card& card2, GameField const& field)
 {
-    return Field[card1.RowIndex][card1.ColIndex] == Field[card2.RowIndex][card2.ColIndex]; //Проверка совпали ли карты
+    return field[card1.RowIndex][card1.ColIndex] == field[card2.RowIndex][card2.ColIndex]; //Проверка совпали ли карты
 }
 
-bool IsAlreadyOpened(Card& card, std::vector<Card> const& OpenedCards)
+bool IsAlreadyOpened(Card& card, std::vector<Card> const& opened_cards)
 {
-    for (const Card& opened_card : OpenedCards)
+    for (const Card& opened_card : opened_cards)
     {
         if (card.RowIndex == opened_card.RowIndex &&
             card.ColIndex == opened_card.ColIndex)                 //Проверка была ли карта открыта ранее
@@ -20,24 +20,24 @@ bool IsAlreadyOpened(Card& card, std::vector<Card> const& OpenedCards)
     return false;
 }
 
-bool IsFree(IntMatrix const& Field, const int& row_pos,
+bool IsFree(GameField const& field, const int& row_pos,
     const int& col_pos)
 {
-    return Field[row_pos][col_pos] == NULL;            //Проверка свободна ли позиция в поле
+    return field[row_pos][col_pos] == NULL;            //Проверка свободна ли позиция в поле
 }
 
 void PrintMarking(const int& amount)
 {
     int count = 0;
     std::cout << "  ";
-    for (int i = 0; i != amount; i++)
+    for (size_t i = 0; i != amount; i++)
     {
         std::cout << count++ << " ";
     }
-                                        //Вывести разлиновку поля
+    //Вывести разлиновку поля
     std::cout << std::endl << " ";
 
-    for (int i = 0; i != count; i++)
+    for (size_t i = 0; i != count; i++)
     {
         std::cout << "==";
     }
@@ -45,44 +45,44 @@ void PrintMarking(const int& amount)
     std::cout << std::endl;
 }
 
-void PrintClosedField(CharMatrix const& ClosedField)
+void PrintClosedField(ClosedGameField const& closed_field)
 {
-    int count = 0;
-    PrintMarking(ClosedField.size());
-    for (int i = 0; i != ClosedField.size(); i++)
+    size_t count = 0;
+    PrintMarking(closed_field.size());
+    for (size_t i = 0; i != closed_field.size(); i++)
     {
         std::cout << count++ << "|";
-        for (int j = 0; j != ClosedField[i].size(); j++)    //Вывести после с закрытыми картами
+        for (size_t j = 0; j != closed_field[i].size(); j++)    //Вывести после с закрытыми картами
         {
-            std::cout << ClosedField[i][j] << " ";
+            std::cout << closed_field[i][j] << " ";
         }
         std::cout << std::endl;
     }
 }
 
-void PrintOpenedCards(const Card& card1, const Card& card2, IntMatrix const& Field,
-    std::vector<Card> const& OpenedCards)
+void PrintOpenedCards(const Card& card1, const Card& card2, GameField const& field,
+    std::vector<Card> const& opened_cards)
 {
     Card card;
-    int count = 0;
+    size_t count = 0;
 
-    PrintMarking(Field.size());
-    for (int i = 0; i != Field.size(); i++)
+    PrintMarking(field.size());
+    for (size_t i = 0; i != field.size(); i++)
     {
         std::cout << count++ << "|";
-        for (int j = 0; j != Field[i].size(); j++)
+        for (size_t j = 0; j != field[i].size(); j++)
         {
             card.RowIndex = i;
             card.ColIndex = j;
             if (i == card1.RowIndex && j == card1.ColIndex)
             {
-                std::cout << ConvertToSymbols[Field[i][j]] << " ";                        //Вывести поле, с открытыми картами
+                std::cout << ConvertToSymbols[field[i][j]] << " ";                        //Вывести поле, с открытыми картами
             }
             else if (i == card2.RowIndex && j == card2.ColIndex)
             {
-                std::cout << ConvertToSymbols[Field[i][j]] << " ";;
+                std::cout << ConvertToSymbols[field[i][j]] << " ";;
             }
-            else if (IsAlreadyOpened(card, OpenedCards))
+            else if (IsAlreadyOpened(card, opened_cards))
             {
                 std::cout << "  ";
             }
@@ -95,36 +95,12 @@ void PrintOpenedCards(const Card& card1, const Card& card2, IntMatrix const& Fie
     }
 }
 
-int SetFieldSize(int& rows, int& cols, int& MaxRandNum, FieldSize const& FSize)
+GameSettings GetGameSettings(FieldSize const& field_size)
 {
-    switch (FSize)
-    {
-    case TWO_BY_TWO:
-        rows = 2;
-        cols = 2;
-        MaxRandNum = 4;
-        break;
-    case FOUR_BY_FOUR:
-        rows = 4;
-        cols = 4;
-        MaxRandNum = 9;
-        break;                                                                          //Установка параметров размера поля
-    case SIX_BY_SIX:
-        rows = 6;
-        cols = 6;
-        MaxRandNum = 20;
-        break;
-    case EXIT:
-        return 1;
-    default:
-        std::cout << "Вы ввели что-то неправильно";
-        return -1;
-        break;
-    }
-    return 0;
+    return FieldSettings.at(field_size);
 }
 
-void AddPair(IntMatrix& Field, const int& el, const int& size)
+void AddPair(GameField& field, const int& el, const int& size)
 {
     bool isCheck = false;
     int rand_row = rand() % size;
@@ -132,9 +108,9 @@ void AddPair(IntMatrix& Field, const int& el, const int& size)
 
     while (!isCheck)
     {
-        if (IsFree(Field, rand_row, rand_col))
+        if (IsFree(field, rand_row, rand_col))
         {
-            Field[rand_row][rand_col] = el;                        //Добавление пары числа
+            field[rand_row][rand_col] = el;                        //Добавление пары числа
             isCheck = true;
         }
         else
@@ -145,33 +121,34 @@ void AddPair(IntMatrix& Field, const int& el, const int& size)
     }
 }
 
-void GenerateField(IntMatrix& Field, std::vector<int>& used_nums,
-    const int& rows, const int& cols, const int& MaxRandNum)
+void GenerateField(GameField& field, const GameSettings& settings)
 {
-    for (int i = 0; i != rows; i++)
+    std::vector<int> used_nums;
+
+    for (size_t i = 0; i != settings.rows; i++)
     {
-        for (int j = 0; j != cols; j++)
+        for (size_t j = 0; j != settings.cols; j++)
         {
-            if (IsFree(Field, i, j))
+            if (IsFree(field, i, j))
             {
                 int el;
                 while (true)
                 {
-                    el = rand() % MaxRandNum;
+                    el = rand() % settings.max_rand_num;
                     if (std::find(used_nums.begin(), used_nums.end(), el) == used_nums.end()) //Генерация чисел
                     {
-                        Field[i][j] = el;
+                        field[i][j] = el;
                         used_nums.push_back(el);
                         break;
                     }
                 }
-                AddPair(Field, el, rows);
+                AddPair(field, el, settings.rows);
             }
         }
     }
 }
 
-bool IsCorrect(Card& card1, Card& card2, const int& rows, const int& cols,
+bool IsCorrect(Card& card1, Card& card2, GameField const& field,
     std::vector<Card> const& OpenedCards)
 {
     std::cout << "Введите индекс 1 карты, которую хотите открыть (Строка, Столбец): ";
@@ -184,10 +161,10 @@ bool IsCorrect(Card& card1, Card& card2, const int& rows, const int& cols,
         std::cout << "Одна из карт уже была открыта!" << std::endl;
         return false;
     }
-    else if (card1.RowIndex >= rows || card1.RowIndex < 0                               //Проверка карт на правильность
-        || card1.ColIndex >= cols || card1.ColIndex < 0 ||
-        card2.RowIndex >= rows || card2.RowIndex < 0 ||
-        card2.ColIndex >= cols || card2.ColIndex < 0)
+    else if (card1.RowIndex >= field.size() || card1.RowIndex < 0                               //Проверка карт на правильность
+        || card1.ColIndex >= field.size() || card1.ColIndex < 0 ||
+        card2.RowIndex >= field.size() || card2.RowIndex < 0 ||
+        card2.ColIndex >= field.size() || card2.ColIndex < 0)
     {
         std::cout << "Карты с таким индексом не существует" << std::endl;
         return false;
@@ -198,62 +175,74 @@ bool IsCorrect(Card& card1, Card& card2, const int& rows, const int& cols,
     }
 }
 
+void InitClosedField(ClosedGameField& closed_field)
+{
+    for (size_t i = 0; i != closed_field.size(); i++)
+    {
+        for (size_t j = 0; j != closed_field[i].size(); j++)        //Заполнение интерфейса поля и объявление переменных
+        {
+            closed_field[i][j] = '#';
+        }
+    }
+}
+
 FieldSize ModeSelection()
 {
-    int SizeVal;
-    FieldSize FSize;
-
+    size_t size_val;
     std::cout << "\n---Игра на память---" << std::endl
         << "1)2x2" << std::endl
         << "2)4x4" << std::endl
         << "3)6x6" << std::endl
-        << "4)Выход" << std::endl
         << "Выбор размера поля: ";
-    std::cin >> SizeVal;
-    FSize = static_cast<FieldSize>(SizeVal);
+    std::cin >> size_val;
+    while (size_val > 3 || size_val < 1)
+    {
+        std::cout << "Вы ввели что-то не так!" << std::endl;
+        std::cout << "Введите другое значение: ";
+        std::cin >> size_val;
+    }
 
-    return FSize;
+    return static_cast<FieldSize>(size_val);
 }
 
-void Turns(int& Player1Points, int& Player2Points, CharMatrix& ClosedField,
-    int& FlipsNumber, const IntMatrix& Field)
+GameStatistics Turns(ClosedGameField& closed_field, GameField& field)
 {
-    std::vector<Card> OpenedCards;
-    int TurnVal = 0;
-    Turn WhichTurn;
+    GameStatistics statistics;
+    std::vector<Card> opened_cards;
+    int turn_val = 0;
+    Turn which_turn;
 
     do
     {
         std::cout << "---Начало раунда---" << std::endl;
 
-        PrintClosedField(ClosedField);
+        PrintClosedField(closed_field);
 
-
-        std::cout << "Ходит " << TurnVal + 1 << " игрок:" << std::endl;
+        std::cout << "Ходит " << turn_val + 1 << " игрок:" << std::endl;
         Card card1, card2;
-        while (!IsCorrect(card1, card2, Field.size(), Field.size(), OpenedCards));
+        while (!IsCorrect(card1, card2, field, opened_cards));
 
-        FlipsNumber += 2;
+        statistics.flips_count += 2;
 
-        PrintOpenedCards(card1, card2, Field, OpenedCards);
+        PrintOpenedCards(card1, card2, field, opened_cards);
 
-        WhichTurn = static_cast<Turn>(TurnVal);
-        if (IsMatch(card1, card2, Field))
+        which_turn = static_cast<Turn>(turn_val);
+        if (IsMatch(card1, card2, field))
         {
-            ClosedField[card1.RowIndex][card1.ColIndex] = ' ';
-            ClosedField[card2.RowIndex][card2.ColIndex] = ' ';
+            closed_field[card1.RowIndex][card1.ColIndex] = ' ';
+            closed_field[card2.RowIndex][card2.ColIndex] = ' ';
 
-            OpenedCards.push_back(card1);
-            OpenedCards.push_back(card2);
+            opened_cards.push_back(card1);
+            opened_cards.push_back(card2);
 
-            switch (WhichTurn)
+            switch (which_turn)
             {
             case PLAYER1:
-                Player1Points++;                                               //Проверка на нахождение пары
+                statistics.p1_points++;                                               //Проверка на нахождение пары
                 std::cout << "Первый игрок получает очко!" << std::endl;
                 break;
             case PLAYER2:
-                Player2Points++;
+                statistics.p2_points++;
                 std::cout << "Второй игрок получает очко!" << std::endl;
                 break;
             default:
@@ -266,82 +255,70 @@ void Turns(int& Player1Points, int& Player2Points, CharMatrix& ClosedField,
             PlaySound(TEXT("wrong-answer-sound.wav"), NULL, SND_FILENAME | SND_SYNC);
         }
 
-        switch (WhichTurn)
+        switch (which_turn)
         {
         case PLAYER1:
-            TurnVal = PLAYER2;
+            turn_val = PLAYER2;
             break;
         case PLAYER2:                   //Переход хода другому игроку
-            TurnVal = PLAYER1;
+            turn_val = PLAYER1;
             break;
         default:
             break;
         }
 
-        std::cout << "Количество очков первого игрока: " << Player1Points << std::endl;
-        std::cout << "Количество очков второго игрока: " << Player2Points << std::endl;
+        std::cout << "Количество очков первого игрока: " << statistics.p1_points << std::endl;
+        std::cout << "Количество очков второго игрока: " << statistics.p2_points << std::endl;
 
         std::cout << "---Конец раунда---" << std::endl;
         _getch();
 
         system("cls");
-    } while (Player1Points + Player2Points != (Field.size() * Field.size()) / 2);
+    } while (statistics.p1_points + statistics.p2_points !=
+        (field.size() * field.size()) / 2);
+    return statistics;
 }
 
-void MainGame(FieldSize FSize)
+void OutputStatistics(const GameStatistics& statistics)
 {
-    _getch();
-
-    system("cls");
-
-    int rows, cols, MaxRandNum;
-    if (SetFieldSize(rows, cols, MaxRandNum, FSize) == -1)
+    if (statistics.p1_points > statistics.p2_points)
     {
-        MainGame(ModeSelection());
-    }
-    else if (SetFieldSize(rows, cols, MaxRandNum, FSize) == 1)
-    {
-        return;
-    }
-
-
-    IntMatrix Field(rows, std::vector<int>(cols));
-    std::vector<int> used_nums;                             //Генерация игрового поля
-    GenerateField(Field, used_nums, rows, cols, MaxRandNum);
-
-    CharMatrix ClosedField(rows, std::vector<char>(cols));
-    int Player1Points = 0, Player2Points = 0;
-    for (int i = 0; i != ClosedField.size(); i++)
-    {
-        for (int j = 0; j != ClosedField[i].size(); j++)        //Заполнение интерфейса поля и объявление переменных
-        {
-            ClosedField[i][j] = '#';
-        }
-    }
-
-    int FlipsNumber = 0;
-    auto timer_start = std::chrono::high_resolution_clock::now();
-
-    Turns(Player1Points, Player2Points, ClosedField, FlipsNumber, Field);
-
-    auto timer_end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float> duration = timer_end - timer_start;
-
-    if (Player1Points > Player2Points)
-    {
-        std::cout << "---Победил 1 игрок со счетом: " << Player1Points << " очков---"
+        std::cout << "---Победил 1 игрок со счетом: " << statistics.p1_points << " очков---"
             << std::endl;
     }
-    else if (Player1Points < Player2Points)
+    else if (statistics.p1_points < statistics.p2_points)
     {
-        std::cout << "---Победил 2 игрок со счетом: " << Player2Points << " очков---"       //Определние победителя
+        std::cout << "---Победил 2 игрок со счетом: " << statistics.p2_points << " очков---"       //Определние победителя
             << std::endl;
     }
     else
     {
         std::cout << "-----Игра закончилась ничьей!-----" << std::endl;
     }
+    std::cout << "Время игры: " << statistics.game_duration.count() << std::endl;
+    std::cout << "Количество переворотов карт: " << statistics.flips_count << std::endl;
+}
 
-    std::cout << "Время игры: " << duration.count() << std::endl;
-    std::cout << "Количество переворотов карт: " << FlipsNumber << std::endl;           //Доп. данные
+void PlayGame(FieldSize field_size)
+{
+
+    system("cls");
+
+    GameSettings settings = GetGameSettings(field_size);
+
+    GameField field(settings.rows, std::vector<int>(settings.cols));                          //Генерация игрового поля
+    GenerateField(field, settings);
+
+    ClosedGameField closed_field(settings.rows, std::vector<char>(settings.cols));
+    InitClosedField(closed_field);
+
+    auto timer_start = std::chrono::high_resolution_clock::now();
+
+    GameStatistics statistics = Turns(closed_field, field);;
+
+    auto timer_end = std::chrono::high_resolution_clock::now();
+    statistics.game_duration = timer_end - timer_start;
+
+
+    OutputStatistics(statistics);
 }
