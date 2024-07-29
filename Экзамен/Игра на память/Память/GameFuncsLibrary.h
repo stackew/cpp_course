@@ -77,36 +77,35 @@ static std::map <int, char> ConvertToSymbols
     {19, '?'}
 };
 
-
-bool IsMatch(Card& card1, Card& card2, GameField const& field);
-
-bool IsAlreadyOpened(Card& card, std::vector<Card> const& opened_cards);
-
-bool IsFree(GameField const& field, const int& row_pos,
-    const int& col_pos);
-
-void PrintMarking(const int& amount);
-
-void PrintClosedField(ClosedGameField const& closed_field);
-
-void PrintOpenedCards(const Card& card1, const Card& card2, GameField const& field,
-    std::vector<Card> const& opened_cards);
-
-GameSettings GetGameSettings(FieldSize const& field_size);
-
 void AddPair(GameField& field, const int& el, const int& size);
 
 void GenerateField(GameField& field, const GameSettings& settings);
 
-bool IsCorrect(Card& card1, Card& card2, GameField const& field,
-    std::vector<Card> const& OpenedCards);
+GameSettings GetGameSettings(FieldSize const& field_size);
 
 void InitClosedField(ClosedGameField& closed_field);
 
-FieldSize ModeSelection();
+bool IsAlreadyOpened(const Card& card, std::vector<Card> const& opened_cards);
 
-GameStatistics Turns(ClosedGameField& closed_field, GameField& field);
+bool IsCorrect(Card& card1, Card& card2, GameField const& field,
+    std::vector<Card> const& OpenedCards);
+
+bool IsFree(GameField const& field, const int& row_pos,
+    const int& col_pos);
+
+bool IsMatch(const Card& card1, const Card& card2, GameField const& field);
+
+FieldSize ModeSelection();
 
 void OutputStatistics(const GameStatistics& statistics);
 
 void PlayGame(FieldSize field_size);
+
+void PrintClosedField(ClosedGameField const& closed_field);
+
+void PrintMarking(const int& amount);
+
+void PrintOpenedCards(const Card& card1, const Card& card2, GameField const& field,
+    std::vector<Card> const& opened_cards);
+
+GameStatistics Turns(ClosedGameField& closed_field, GameField& field);

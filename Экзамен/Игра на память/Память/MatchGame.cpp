@@ -20,7 +20,7 @@ int main()
         std::cout << "Введите другое значение: ";
         std::cin >> user_choice_val;
     }
-    user_choice = static_cast<UserChoice>(user_choice_val);//в функцию
+    user_choice = static_cast<UserChoice>(user_choice_val);
 
     FieldSize mode;
     switch (user_choice)

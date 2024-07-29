@@ -10,12 +10,11 @@ void AddSongText(Song& song)
 	}
 	else
 	{
-		string text, str;
+		string text;
 		int open_type_val;
 		TextOpenType type;
 
 		string file_name;
-		std::ifstream file;
 		do
 		{
 			std::cout << "1)Ввести с клавиатуры" << std::endl
@@ -35,24 +34,7 @@ void AddSongText(Song& song)
 			case FROM_FILE:
 				std::cout << "Введите название файла вместе с расширением (Название.расширение): ";
 				std::cin >> file_name;
-
-				file.open(file_name);
-				if (!file.is_open())
-				{
-					std::cout << "Не получилось считать данные из файла!" << std::endl;
-				}
-				else
-				{
-					std::cout << "Текст успешно загружен!" << std::endl;
-					
-					while (!file.eof())
-					{	
-						str = "";
-						getline(file, str);
-						text += str;
-					}
-					file.close();
-				}
+				AddTextFromFile(file_name, text);	
 				break;
 			case DONT_OPEN:
 				std::cout << "Текст не будет добавлен или изменен." << std::endl;
@@ -64,6 +46,62 @@ void AddSongText(Song& song)
 		} while (type != MANUALLY && type != FROM_FILE && type != DONT_OPEN);
 		song.Text = text;
 	}
+}
+
+void AddTextFromFile(const string& file_name, string& text)
+{
+	std::ifstream file;
+	string str;
+	file.open(file_name);
+	if (!file.is_open())
+	{
+		std::cout << "Не получилось считать данные из файла!" << std::endl;
+	}
+	else
+	{
+		std::cout << "Текст успешно загружен!" << std::endl;
+
+		while (!file.eof())
+		{
+			str = "";
+			getline(file, str);
+			text += str;
+		}
+		file.close();
+	}
+}
+
+int ChooseOption()
+{
+	int option_val;
+	std::cout << "\n---Каталог песен---" << std::endl;
+	std::cout << "1)Добавить песню в каталог" << std::endl
+		<< "2)Посмотреть содержимое каталога" << std::endl
+		<< "3)Посмотреть информацию о песне" << std::endl
+		<< "4)Изменить данные песни" << std::endl
+		<< "5)Очистить текст песни" << std::endl
+		<< "6)Сохранить текст песни в файл" << std::endl
+		<< "7)Поиск по автору" << std::endl
+		<< "8)Поиск по слову в тексте" << std::endl
+		<< "9)Выйти из программы" << std::endl;
+	std::cout << "Что вы хотите выбрать: ";
+	std::cin >> option_val;
+
+	while (option_val > MAX_OPTION_VAL || option_val < MIN_OPTION_VAL) //Возможно задефайнить как MAX_OPTION_VAL и MIN
+	{
+		std::cout << "Вы ввели что- то не так!" << std::endl;
+		std::cout << "Что вы хотите выбрать: ";
+		std::cin >> option_val;
+	}
+	system("cls");
+	return option_val;
+}
+
+
+void ClearSongText(Song& song)
+{
+	song.Text = "";
+	std::cout << "Текст успешно очищен!" << std::endl;
 }
 
 Song CreateSong()
@@ -81,12 +119,9 @@ Song CreateSong()
 	return song;
 }
 
-void PrintSongInfo(const Song& song)
+void EditSong(Song& song_to_edit)
 {
-	std::cout << "   Название: " << song.Name << std::endl
-		<< "   Автор: " << song.Author << std::endl
-		<< "   Год создания: " << song.YearOfCreation << std::endl
-		<< "   Текст: " << song.Text << std::endl;
+	song_to_edit = CreateSong();
 }
 
 void PrintCatalog(std::vector<Song> const& catalog)
@@ -99,15 +134,12 @@ void PrintCatalog(std::vector<Song> const& catalog)
 	}
 }
 
-void EditSong(Song& song_to_edit)
+void PrintSongInfo(const Song& song)
 {
-	song_to_edit = CreateSong();
-}
-
-void ClearSongText(Song& song)
-{
-	song.Text = "";
-	std::cout << "Текст успешно очищен!" << std::endl;
+	std::cout << "   Название: " << song.Name << std::endl
+		<< "   Автор: " << song.Author << std::endl
+		<< "   Год создания: " << song.YearOfCreation << std::endl
+		<< "   Текст: " << song.Text << std::endl;
 }
 
 void SaveSongText(const Song& song)
@@ -158,45 +190,6 @@ void SearchByWord(std::vector<Song> catalog, const string& word)
 			std::cout << "-" << song.Name << std::endl;
 		}
 	}
-}
-
-int ChooseOption()
-{
-	int option_val;
-	std::cout << "\n---Каталог песен---" << std::endl;
-	std::cout << "1)Добавить песню в каталог" << std::endl
-		<< "2)Посмотреть содержимое каталога" << std::endl
-		<< "3)Посмотреть информацию о песне" << std::endl
-		<< "4)Изменить данные песни" << std::endl
-		<< "5)Очистить текст песни" << std::endl
-		<< "6)Сохранить текст песни в файл" << std::endl
-		<< "7)Поиск по автору" << std::endl
-		<< "8)Поиск по слову в тексте" << std::endl
-		<< "9)Выйти из программы" << std::endl;
-	std::cout << "Что вы хотите выбрать: ";
-	std::cin >> option_val;
-
-	while (option_val > MAX_OPTION_VAL || option_val < MIN_OPTION_VAL) //Возможно задефайнить как MAX_OPTION_VAL и MIN
-	{
-		std::cout << "Вы ввели что- то не так!" << std::endl;
-		std::cout << "Что вы хотите выбрать: ";
-		std::cin >> option_val;
-	}
-	system("cls");
-	return option_val;
-}
-
-int SongIndexInput(const int& catalog_size)
-{
-	int song_index;
-	std::cout << "Введите номер песни: ";
-	std::cin >> song_index;
-	if (song_index - 1 >= catalog_size || song_index < MIN_OPTION_VAL)
-	{
-		std::cout << "Такой песни не существует!" << std::endl;
-		return -1;
-	}
-	return song_index - 1;
 }
 
 void SongCatalogApp()
@@ -254,3 +247,16 @@ void SongCatalogApp()
 		}
 	} while (option != EXIT);
 }
+
+int SongIndexInput(const int& catalog_size)
+{
+	int song_index;
+	std::cout << "Введите номер песни: ";
+	std::cin >> song_index;
+	if (song_index - 1 >= catalog_size || song_index < MIN_OPTION_VAL)
+	{
+		std::cout << "Такой песни не существует!" << std::endl;
+		return -1;
+	}
+	return song_index - 1;
+}66

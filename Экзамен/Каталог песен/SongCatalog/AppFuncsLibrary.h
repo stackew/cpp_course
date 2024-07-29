@@ -42,13 +42,19 @@ struct Song
 
 void AddSongText(Song& song);
 
-Song CreateSong();
+void AddTextFromFile(const string& file_name, string& text);
 
-void PrintSongInfo(const Song& song);
+int ChooseOption();
+
+void ClearSongText(Song& song);
+
+Song CreateSong();
 
 void EditSong(Song& song_to_edit);
 
-void ClearSongText(Song& song);
+void PrintCatalog(std::vector<Song> const& catalog);
+
+void PrintSongInfo(const Song& song);
 
 void SaveSongText(const Song& song);
 
@@ -56,8 +62,6 @@ void SearchByAuthor(std::vector<Song> catalog, const string& author);
 
 void SearchByWord(std::vector<Song> catalog, const string& word);
 
-int ChooseOption();
+void SongCatalogApp();
 
 int SongIndexInput(const int& catalog_size);
-
-void SongCatalogApp();
